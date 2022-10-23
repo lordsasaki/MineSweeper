@@ -1,0 +1,100 @@
+package MayinTarlasi;
+
+import java.util.Random;
+import java.util.Scanner;
+
+public class MineSweeper {
+    int row,col,size;
+    int mineList[][];
+    int mapList[][];
+    boolean isGame=true;
+    
+    Random rnd = new Random();
+    Scanner scan = new Scanner(System.in);
+    
+    public MineSweeper(int row,int col) {
+    	this.row = row;
+    	this.col = col;
+    	this.mineList = new int[col][row];
+    	this.mapList = new int[col][row];
+    	this.size=col*row;
+    }
+    
+    public void produceMine() {
+    	int x,y,count=0;
+    	while(count!=(size/4)) {
+    		x = rnd.nextInt(this.col);
+    		y = rnd.nextInt(this.row);
+    		
+    		if(mineList[x][y] != 1)
+    		{
+    			count++;
+    			mineList[x][y] =1;
+    		}}
+    	}
+    
+    public void showMap(int arr[][]) {
+    	for (int[] is : arr) {
+    		for(int i : is) {
+    			if(i==0)
+    				System.out.print("_"+" ");
+    			else {
+					System.out.print(i+" ");
+				}
+    		}
+    		System.out.println();
+			
+		}
+    }
+    public boolean run() {
+    	produceMine();
+    	int rowNumber,colNumber;
+    	while(isGame)
+    	{
+    		showMap(mapList);
+    		System.out.print("Satir Gir: ");
+    		rowNumber = scan.nextInt();
+    		System.out.print("Sutun Gir: ");
+    		colNumber = scan.nextInt();
+    		
+    		if(rowNumber>-1 && rowNumber<this.row && colNumber>-1 && colNumber<this.col)
+    			check(rowNumber,colNumber);
+    		else {
+    			System.out.println("Hatali Deger girdiniz!!");
+    		}
+    	}
+    	return isGame;
+    }
+    
+    public boolean check(int rowNumber, int colNumber ) {
+    	if(this.mineList[rowNumber][colNumber]==1)
+    		return false;
+    	
+    	 if (colNumber< col-1 && mineList[rowNumber][colNumber+1]==-1) {//
+             mapList[rowNumber][colNumber]++;
+         }
+         if (rowNumber>0 && colNumber< col-1 && mineList[rowNumber-1][colNumber+1]==-1) {
+             mapList[rowNumber][colNumber]++;
+         }
+         if (rowNumber>0 && mineList[rowNumber-1][colNumber]==-1) { //
+             mapList[rowNumber][colNumber]++;
+         }
+         if (rowNumber>0 && colNumber>0  && mineList[rowNumber-1][colNumber-1]==-1) {
+             mapList[rowNumber][colNumber]++;
+         }
+         if (colNumber>0 && mineList[rowNumber][colNumber-1]==-1) { //
+             mapList[rowNumber][colNumber]++;
+         }
+         if (colNumber>0 && rowNumber< rowNumber-1 &&mineList[rowNumber+1][colNumber-1]==-1) {
+             mapList[rowNumber][colNumber]++;
+         }
+         if (rowNumber< rowNumber-1 && mineList[rowNumber+1][colNumber]==-1) { //
+             mapList[rowNumber][colNumber]++;
+         }
+         if (colNumber< col-1 && rowNumber< rowNumber-1 && mineList[rowNumber+1][colNumber+1]==-1) {
+             mapList[rowNumber][colNumber]++;
+         }
+    	return true;
+    }
+    
+    }
